@@ -1,17 +1,17 @@
 
-let getkF1 = async year => {
+let getkF1 = async (year, season) => {
     try {
         // let response = await axios.get(`https://ergast.com/api/f1/${year}/${round}/driverStandings.json`);
-        let response = await axios.get(`https://ergast.com/api/f1/${year}/3/driverStandings.json`);
+        let response = await axios.get(`https://ergast.com/api/f1/${year}/${season}/driverStandings.json`);
         return response.data
     } catch {
-        return year
+        return year, season
     }
 }
 
 // function to utilize the data from the api call
-let loadkF1 = async year => {
-    let data = await getkF1(year);
+let loadkF1 = async (year, season) => {
+    let data = await getkF1(year, season);
     if (typeof data === 'object') {
         
         let d_table = `<table class="table table-bordered table-dark">
@@ -82,7 +82,7 @@ let loadkF1 = async year => {
         document.getElementById('contentr').insertAdjacentHTML('beforeend', d_table);
     } else {
 
-        errors.innerHTML = `${year} is not a valid entry.`;
+        errors.innerHTML = `${year} or ${season} is not a valid entry.`;
         errors.hidden = false;
     }
 }
@@ -96,7 +96,8 @@ form.addEventListener('submit', event => {
     // let the_year = '2020'
     
     let the_year = event.path[0][0].value;
-    loadkF1(the_year);
+    let the_season = document.querySelector('#round').value
+    loadkF1(the_year, the_season);
 
     // errors.hidden = true;
     // form.reset();
