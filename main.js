@@ -1,7 +1,6 @@
 
 let getkF1 = async (year, season) => {
     try {
-        // let response = await axios.get(`https://ergast.com/api/f1/${year}/${round}/driverStandings.json`);
         let response = await axios.get(`https://ergast.com/api/f1/${year}/${season}/driverStandings.json`);
         return response.data
     } catch {
@@ -9,7 +8,6 @@ let getkF1 = async (year, season) => {
     }
 }
 
-// function to utilize the data from the api call
 let loadkF1 = async (year, season) => {
     let data = await getkF1(year, season);
     if (typeof data === 'object') {
@@ -87,18 +85,13 @@ let loadkF1 = async (year, season) => {
     }
 }
 
-// tie our api call process to an event
 let form = document.getElementById('pform');
-// let errors = document.getElementById('errors');
 
 form.addEventListener('submit', event => {
     event.preventDefault();
-    // let the_year = '2020'
     
     let the_year = event.path[0][0].value;
     let the_season = document.querySelector('#round').value
     loadkF1(the_year, the_season);
-
-    // errors.hidden = true;
-    // form.reset();
+    form.reset();
 });
